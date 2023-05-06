@@ -12,9 +12,7 @@ export class App extends Component {
       { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
       { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
-    name: '',
-    number: '',
+    ],    
     filter: '',
   };
   hendleSaveFind = ({ target: { value } }) => {
@@ -31,20 +29,21 @@ export class App extends Component {
     );
     return filterContacts;
   }  
-  
-  hendleChange = ({ target: { value, name } }) => {
+  deleteContact = (event) => {   
+    const{id}=event.target
+    const filterId = this.state.contacts.filter(constact => constact.id !== id);
     this.setState({
-      [name]: value,
-    });
-  };
-  hendleSubmit = e => {
-    e.preventDefault();    
+      contacts:[...filterId]
+    })    
+  }
+  
+  hendleSubmit = e =>{        
     if (this.state.contacts) {
       const filterContacts=this.state.contacts.filter(
         contact =>
           contact.name
             .toLocaleLowerCase()
-            .indexOf(e.target[0].value.toLocaleLowerCase()) > -1
+            .indexOf(e.name.toLocaleLowerCase()) > -1
       );      
       if (filterContacts.length > 0) {
         const sameNames = filterContacts.map(contact => contact.name)        
@@ -55,7 +54,7 @@ export class App extends Component {
     this.setState(prev => ({
       contacts: [
         ...prev.contacts,
-        { name: this.state.name, number: this.state.number, id: nanoid() },
+        { name: e.name, number: e.number, id: nanoid() },
       ],
     }));
   };
@@ -64,17 +63,10 @@ export class App extends Component {
     return (
       <div>
         <h1>Phonebook</h1>
-        <ContactForm
-          valueName={this.state.name}
-          name={this.hendleChange}
-          submit={this.hendleSubmit}
-          valueNumer={this.state.number}
-        />
+        <ContactForm submit={this.hendleSubmit} />
         <h2>Contacts</h2>
         <Filter filter={this.hendleSaveFind} />
-        <ListContacts list={this.hendleFilter()} />
-
-        {/* <ContactList /> */}
+        <ListContacts list={this.hendleFilter()} deleteName={this.deleteContact} />
       </div>
     );
   }
