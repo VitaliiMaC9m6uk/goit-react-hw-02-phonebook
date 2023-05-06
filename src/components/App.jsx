@@ -38,7 +38,20 @@ export class App extends Component {
     });
   };
   hendleSubmit = e => {
-    e.preventDefault();
+    e.preventDefault();    
+    if (this.state.contacts) {
+      const filterContacts=this.state.contacts.filter(
+        contact =>
+          contact.name
+            .toLocaleLowerCase()
+            .indexOf(e.target[0].value.toLocaleLowerCase()) > -1
+      );      
+      if (filterContacts.length > 0) {
+        const sameNames = filterContacts.map(contact => contact.name)        
+       return alert(`${sameNames} is already in contacts.`);
+      }
+
+    }
     this.setState(prev => ({
       contacts: [
         ...prev.contacts,

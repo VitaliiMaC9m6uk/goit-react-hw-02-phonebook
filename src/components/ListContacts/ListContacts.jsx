@@ -1,11 +1,16 @@
 const ListContacts = ({list}) => {    
     return (
-      <ul>       
+      <ul>
         {list.map(contact => (
-          <li key={contact.id}>
-            {contact.name} : {contact.number}
-          </li>
-        ))}        
+          
+            <li key = {contact.id}>
+              {contact.name} : {contact.number}
+            <button
+              onClick={console.log(`delete `)}
+            >Delete</button>
+            </li>
+          
+        ))}
       </ul>
     );
 }
